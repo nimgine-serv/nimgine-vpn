@@ -136,29 +136,4 @@ sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 systemctl enable stunnel4 >/dev/null 2>&1
 systemctl restart stunnel4
 
-# --- Open All Service Ports & Save Persistently ---
-echo iptables-persistent iptables-persistent/enable-ipv4 boolean true | debconf-set-selections
-echo iptables-persistent iptables-persistent/enable-ipv6 boolean true | debconf-set-selections
-apt-get update && apt-get install -y iptables-persistent netfilter-persistent
-
-# Open Dashboard Ports
-iptables -I INPUT -p tcp --dport 22 -j ACCEPT
-iptables -I INPUT -p tcp --dport 109 -j ACCEPT
-iptables -I INPUT -p tcp --dport 143 -j ACCEPT
-iptables -I INPUT -p tcp --dport 447 -j ACCEPT
-iptables -I INPUT -p tcp --dport 777 -j ACCEPT
-iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-iptables -I INPUT -p tcp --dport 8880 -j ACCEPT
-iptables -I INPUT -p tcp --dport 1080 -j ACCEPT
-iptables -I INPUT -p tcp --dport 53 -j ACCEPT
-iptables -I INPUT -p udp --dport 53 -j ACCEPT
-iptables -I INPUT -p tcp --dport 5300 -j ACCEPT
-iptables -I INPUT -p udp --dport 5300 -j ACCEPT
-iptables -I INPUT -p udp --dport 1:65535 -j ACCEPT
-
-# Save rules so they survive server reboots
-netfilter-persistent save
-systemctl enable netfilter-persistent
-
 log_event "INFO" "Routing Engine Deployed Successfully."
