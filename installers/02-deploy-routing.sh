@@ -136,38 +136,4 @@ sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 systemctl enable stunnel4 >/dev/null 2>&1
 systemctl restart stunnel4
 
-# --- Ultimate Firewall Persistence & UFW Neutralization ---
-
-# 1. Permanently kill UFW to prevent reboot conflicts
-ufw disable 2>/dev/null || true
-systemctl stop ufw 2>/dev/null || true
-systemctl disable ufw 2>/dev/null || true
-
-# 2. Install persistent firewall packages non-interactively
-export DEBIAN_FRONTEND=noninteractive
-echo iptables-persistent iptables-persistent/enable-ipv4 boolean true | debconf-set-selections
-echo iptables-persistent iptables-persistent/enable-ipv6 boolean true | debconf-set-selections
-apt-get update -y && apt-get install -y iptables-persistent netfilter-persistent
-
-# 3. Open Dashboard Ports (iptables)
-iptables -I INPUT -p tcp --dport 22 -j ACCEPT
-iptables -I INPUT -p tcp --dport 109 -j ACCEPT
-iptables -I INPUT -p tcp --dport 143 -j ACCEPT
-iptables -I INPUT -p tcp --dport 447 -j ACCEPT
-iptables -I INPUT -p tcp --dport 777 -j ACCEPT
-iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-iptables -I INPUT -p tcp --dport 8880 -j ACCEPT
-iptables -I INPUT -p tcp --dport 1080 -j ACCEPT
-iptables -I INPUT -p tcp --dport 53 -j ACCEPT
-iptables -I INPUT -p udp --dport 53 -j ACCEPT
-iptables -I INPUT -p tcp --dport 5300 -j ACCEPT
-iptables -I INPUT -p udp --dport 5300 -j ACCEPT
-iptables -I INPUT -p udp --dport 1:65535 -j ACCEPT
-
-# 4. Lock the rules to the disk
-netfilter-persistent save
-netfilter-persistent reload
-systemctl enable netfilter-persistent
-
 log_event "INFO" "Routing Engine Deployed Successfully."
