@@ -662,7 +662,7 @@ menu_services() {
         echo -e "  ${CYAN}SSH-WSS (HTTPS)   :${NC} 443"
         echo -e "  ${CYAN}Custom SSH (HTTP) :${NC} 8880"
         echo -e "  ${CYAN}SlowDNS (DNSTT)   :${NC} 53, 5300"
-        echo -e "  ${CYAN}UDP Custom        :${NC} 1-65535"
+        echo -e "  ${CYAN}UDP Custom        :${NC} 70-65535"
         echo -e "  ${CYAN}SOCKS5 Proxy      :${NC} 1080"
         draw_line
         echo -e "  ${CYAN}[01]${NC} Restart All Services"
