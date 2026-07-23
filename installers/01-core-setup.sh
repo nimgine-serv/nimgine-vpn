@@ -88,22 +88,6 @@ cat <<EOF > /etc/logrotate.d/nimgine
     copytruncate
 }
 EOF
-# --- Modern Ubuntu 22.04/24.04 SSH & Socket Fix ---
-
-# 1. Defeat systemd socket activation (forces classic SSH service)
-systemctl stop ssh.socket 2>/dev/null || true
-systemctl disable ssh.socket 2>/dev/null || true
-systemctl enable ssh.service
-
-# 2. Create a priority override to defeat provider port changes
-cat <<EOF > /etc/ssh/sshd_config.d/99-nimgine-override.conf
-Port 22
-PermitRootLogin yes
-PasswordAuthentication yes
-EOF
-
-# 3. Apply the changes safely
-systemctl restart ssh.service
 
 log_event "INFO" "Phase 1 Complete."
 
