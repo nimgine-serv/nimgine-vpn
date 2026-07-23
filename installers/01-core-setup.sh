@@ -89,5 +89,17 @@ cat <<EOF > /etc/logrotate.d/nimgine
 }
 EOF
 
+# --- Fix SSH Port Override & Ubuntu Socket Conflict ---
+rm -f /etc/ssh/sshd_config.d/*
+
+sed -i 's/^#*Port.*/Port 22/' /etc/ssh/sshd_config
+sed -i 's/^#*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+systemctl stop ssh.socket 2>/dev/null || true
+systemctl disable ssh.socket 2>/dev/null || true
+systemctl enable ssh
+systemctl restart ssh
+
 log_event "INFO" "Phase 1 Complete."
 
