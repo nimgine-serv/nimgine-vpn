@@ -88,5 +88,6 @@ cat <<EOF > /etc/logrotate.d/nimgine
     copytruncate
 }
 EOF
-sed -ilog_event "INFO" "Phase 1 Complete."
+
+log_event "INFO" "Phase 1 Complete."
 
