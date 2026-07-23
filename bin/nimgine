@@ -1,0 +1,99 @@
+#!/bin/bash
+# File: /opt/nimgine/bin/nimgine
+# Purpose: The internal CLI API router.
+
+source /opt/nimgine/core/nimgine.conf
+source /opt/nimgine/lib/users.sh
+source /opt/nimgine/lib/system.sh
+source /opt/nimgine/lib/services.sh
+
+COMMAND="$1"
+SUBCOMMAND="$2"
+TARGET="$3"
+ARG4="$4"
+ARG5="$5"
+ARG6="$6"
+ARG7="$7"
+
+show_help() {
+    echo -e "\033[0;36NIMGINE™ CLI API\033[0m"
+    echo "Usage: nimgine <resource> <action> [args]"
+    echo ""
+    echo "Commands:"
+    echo "  user add <user> <pass> <days> <max_logins> <bw_limit>  - Create a new VPN account"
+    echo "  user trial <user> <pass> <hrs> <max_logins> <bw_limit> - Create a trial account"
+    echo "  user renew <user> <days>       - Add/deduct days from account"
+    echo "  user del <user>                - Delete a VPN account"
+    echo "  service restart <name>         - Restart a managed service"
+    echo "  config host <domain>           - Update primary domain"
+    echo "  config ns <domain>             - Update NS domain"
+    echo "  cert renew                     - Force Let's Encrypt renewal"
+    echo "  cert status                    - View Let's Encrypt status"
+    echo "  dnstt renew                    - Generate new SlowDNS keys"
+    echo "  sys autoreboot <hours>         - Set auto-reboot schedule"
+    echo "  sys banner                     - Change SSH banner"
+    echo "  sys backup                     - Backup database, domains & keys"
+    echo "  sys restore <file_path>        - Restore from an archive"
+    echo "  sys update                     - Update script from GitHub"
+    echo "  sys uninstall                  - Remove nimgine completely"
+}
+
+case "$COMMAND" in
+    user)
+        case "$SUBCOMMAND" in
+            add)   create_vpn_user "$TARGET" "$ARG4" "$ARG5" "$ARG6" "$ARG7" ;;
+            trial) create_trial_user "$TARGET" "$ARG4" "$ARG5" "$ARG6" "$ARG7" ;;
+            renew) renew_user "$TARGET" "$ARG4" ;;
+            del)   delete_vpn_user "$TARGET" ;;
+            *)     show_help ;;
+        esac
+        ;;
+    service)
+        case "$SUBCOMMAND" in
+            restart) restart_service "$TARGET" ;;
+            *)       show_help ;;
+        esac
+        ;;
+    config)
+        case "$SUBCOMMAND" in
+            host) change_host_domain "$TARGET" ;;
+            ns)   change_ns_domain "$TARGET" ;;
+            *)    show_help ;;
+        esac
+        ;;
+    cert)
+        case "$SUBCOMMAND" in
+            renew)  renew_ssl_cert "$TARGET" ;;
+            status) /root/.acme.sh/acme.sh --list ;;
+            *)      show_help ;;
+        esac
+        ;;
+    dnstt)
+        case "$SUBCOMMAND" in
+            renew) generate_dnstt_key ;;
+            *)     show_help ;;
+        esac
+        ;;
+    sys)
+        case "$SUBCOMMAND" in
+            autoreboot) set_auto_reboot "$TARGET" ;;
+            banner)     change_banner ;;
+            backup)     create_backup ;;
+            restore)    restore_backup "$TARGET" ;;
+            update)     update_script ;;
+            uninstall)  uninstall_script ;;
+            online)
+                if [ -f "/opt/nimgine/core/online_users.txt" ]; then
+                    cat "/opt/nimgine/core/online_users.txt"
+                else
+                    echo "Daemon is starting up..."
+                fi
+                ;;
+            fail2ban)   install_fail2ban ;;
+            *)          show_help ;;
+        esac
+        ;;
+    *)
+        show_help
+        ;;
+esac
