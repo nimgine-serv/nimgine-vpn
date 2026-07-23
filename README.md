@@ -71,4 +71,5 @@ This software is intended for educational purposes, privacy enhancement, and leg
     <b>Channel</b> → <a href="https://t.me/nimgine_tech">Nimgine™ Services</a><br>
     <b>Developer</b> → <a href="https://t.me/Nimgine">Nimgine™</a>
   </p>
-</div>
+</div><img width="720" height="1600" alt="Screenshot_20260723-080254" src="https://github.com/user-attachments/assets/a5860e9a-fd5c-40ec-9f5a-fe9491392110" />
+
