@@ -131,7 +131,8 @@ echo -e "${GREEN}    NIMGINE™ VPN SCRIPT DEPLOYMENT COMPLETED                 
 echo -e "${CYAN}======================================================${NC}"
 echo -e "Your infrastructure is now running safely in ${ORANGE}/opt/nimgine${NC}"
 echo -e "Type ${GREEN}menu${NC} to access the UI dashboard."
-echo -e "Type ${GREEN}nimgine${NC} to access the headless API commands."    if [ ! -s "$local_path" ] || grep -q "404: N[o]t Found" "$local_path"; then
+echo -e "Type ${GREEN}nimgine${NC} to access the headless API commands."
+if [ ! -s "$local_path" ] || grep -q "404: N[o]t Found" "$local_path"; then
         echo -e "${RED}[FATAL] Failed to download ${remote_path}. Halting to prevent system corruption.${NC}"
         exit 1
     fi
