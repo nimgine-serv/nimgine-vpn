@@ -972,6 +972,9 @@ show_dashboard() {
         get_system_stats
         get_db_stats
 
+# ADDED: Live Network Socket Tracker for OpenSSH & Dropbear
+        LIVE_CONNECTIONS=$(netstat -anp 2>/dev/null | grep -E ':(22|109) ' | grep ESTABLISHED | wc -l)
+        
         draw_top
         echo -e "${CYAN}│${NC} ${BOLD}${GREEN}             NIMGINE™ SCRIPT DASHBOARD             ${NC} ${CYAN}│${NC}"
         draw_mid
