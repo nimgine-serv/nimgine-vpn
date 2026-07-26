@@ -971,6 +971,8 @@ show_dashboard() {
         clear
         get_system_stats
         get_db_stats
+        # ADDED: Live Network Socket Tracker for OpenSSH & Dropbear
+        LIVE_CONNECTIONS=$(netstat -anp 2>/dev/null | grep -E ':(22|109) ' | grep ESTABLISHED | wc -l)
 
         draw_top
         echo -e "${CYAN}│${NC} ${BOLD}${GREEN}             NIMGINE™ SCRIPT DASHBOARD             ${NC} ${CYAN}│${NC}"
@@ -991,7 +993,8 @@ show_dashboard() {
         echo -e "  ${ORANGE}Data Used Month${NC}   : ${CYAN}${BW_MONTH}${NC}"
         draw_mid
         
-        echo -e "  Active Users : ${GREEN}${ACTIVE_USERS}${NC} / ${TOTAL_USERS}    Expired : ${RED}${EXPIRED_USERS}${NC}"
+        echo -e "  Valid Accounts   : ${GREEN}${ACTIVE_USERS}${NC} / ${TOTAL_USERS}    Expired : ${RED}${EXPIRED_USERS}${NC}"
+        echo -e "  Live Connections : ${GREEN}${LIVE_CONNECTIONS}${NC} (Ports 22 & 109)"
         draw_mid
         
         echo -e "  ${CYAN}[01]${NC} SSH PANEL            ${CYAN}[02]${NC} DOMAIN & SSL"
