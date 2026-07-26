@@ -994,7 +994,8 @@ show_dashboard() {
         echo -e "  ${ORANGE}Data Used Month${NC}   : ${CYAN}${BW_MONTH}${NC}"
         draw_mid
         
-        echo -e "  Active Users : ${GREEN}${ACTIVE_USERS}${NC} / ${TOTAL_USERS}    Expired : ${RED}${EXPIRED_USERS}${NC}"
+        echo -e "  Valid Accounts   : ${GREEN}${ACTIVE_USERS}${NC} / ${TOTAL_USERS}    Expired : ${RED}${EXPIRED_USERS}${NC}"
+        echo -e "  Live Connections : ${GREEN}${LIVE_CONNECTIONS}${NC} (Ports 22 & 109)"
         draw_mid
         
         echo -e "  ${CYAN}[01]${NC} SSH PANEL            ${CYAN}[02]${NC} DOMAIN & SSL"
