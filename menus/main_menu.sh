@@ -971,8 +971,17 @@ show_dashboard() {
         clear
         get_system_stats
         get_db_stats
-        # ADDED: Live Network Socket Tracker for OpenSSH & Dropbear
-        LIVE_CONNECTIONS=$(netstat -anp 2>/dev/null | grep -E ':(22|109) ' | grep ESTABLISHED | wc -l)
+        # ADDED: Precise Process-Based Tracker (Ignores Proxy Noise)
+        LIVE_CONNECTIONS=$(ps -eo comm | grep -E '^sshd$|^dropbear$' | wc -l)
+        
+        # Subtract the master listener daemons so only active users are counted
+        if [ "$LIVE_CONNECTIONS" -gt 0 ]; then
+            # Assuming 1 master Dropbear and 1 master SSHD process exist
+            ((LIVE_CONNECTIONS-=2))
+        fi
+        
+        # Prevent negative numbers if services are off
+        if [ "$LIVE_CONNECTIONS" -lt 0 ]; then LIVE_CONNECTIONS=0; fi
 
         draw_top
         echo -e "${CYAN}│${NC} ${BOLD}${GREEN}             NIMGINE™ SCRIPT DASHBOARD             ${NC} ${CYAN}│${NC}"
