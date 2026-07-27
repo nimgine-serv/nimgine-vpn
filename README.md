@@ -45,7 +45,7 @@ Once the installation completes, manage your server securely:
 1. **Interactive Dashboard:** Type `menu` to launch the beautiful and comprehensive TUI panel for managing users, monitoring connections, and modifying system settings.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/a5860e9a-fd5c-40ec-9f5a-fe9491392110" alt="Dashboard & Menus" width="300">
+  <img src="https://github.com/user-attachments/assets/6136399e-4693-40ec-9e2a-604bcfa13b90" alt="Dashboard & Menus" width="300">
 </p>
    
 2. **Headless Internal API:** Type `nimgine` followed by an API command to script automations natively.
@@ -71,4 +71,5 @@ This software is intended for educational purposes, privacy enhancement, and leg
     <b>Channel</b> → <a href="https://t.me/nimgine_tech">Nimgine™ Services</a><br>
     <b>Developer</b> → <a href="https://t.me/Nimgine">Nimgine™</a>
   </p>
-  
+
+
