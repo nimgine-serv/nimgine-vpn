@@ -971,7 +971,7 @@ show_dashboard() {
         clear
         get_system_stats
         get_db_stats
-        LIVE_CONNECTIONS=$(ps -eo user,comm | awk '$2 ~ /^(sshd|dropbear)$/ && $1 !~ /^(root|nobody|opc|admin|debian)$/' | wc -l)
+        LIVE_CONNECTIONS=$(ps -eo user,comm | awk '$2 ~ /^(sshd|dropbear)$/ && $1 !~ /^(root|opc|admin|debian)$/' | wc -l)
         
         draw_top
         echo -e "${CYAN}│${NC} ${BOLD}${GREEN}             NIMGINE™ SCRIPT DASHBOARD             ${NC} ${CYAN}│${NC}"
