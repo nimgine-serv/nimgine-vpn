@@ -971,7 +971,7 @@ show_dashboard() {
         clear
         get_system_stats
         get_db_stats
-        LIVE_CONNECTIONS=$(netstat -tn 2>/dev/null | awk '$4 ~ /:(22|109)$/ && $6 == "ESTABLISHED"' | wc -l)
+        LIVE_CONNECTIONS=$(ss -tnH state established '( sport = :22 or sport = :109 )' 2>/dev/null | wc -l)
         
         draw_top
         echo -e "${CYAN}│${NC} ${BOLD}${GREEN}             NIMGINE™ SCRIPT DASHBOARD             ${NC} ${CYAN}│${NC}"
